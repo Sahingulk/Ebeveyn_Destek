@@ -1,5 +1,4 @@
-
-<!DOCTYPE html>
+![Logo](https://github.com/Sahingulk/Ebeveyn_Destek/assets/73434957/ed1a8956-23b0-43b4-b088-12be6e82a234)
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
@@ -31,7 +30,22 @@
         <li>Lütfen bir sorun bildirin veya bir pull isteği gönderin.</li>
     </ul>
 <p>
-    <h2>Lisans</h2>
-    <p>Bu proje MIT Lisansı altında lisanslanmıştır. Daha fazla bilgi için <a href="LICENSE">LICENSE</a> dosyasına bakınız.</p>
+    <h2>Kullanılan Teknolojiler
+</h2>
+    <p>
+    <strong>Dart:</strong> Flutter uygulamalarını geliştirmek için kullanılan ana programlama dilini kullandık hızlı ve güncel desteğe sağip. Hızlı, etkili ve nesne odaklı bir dil olarak mobil uygulama geliştirmek kullandık.
+</p>
+
+<p>
+    <strong>Flutter Framework:</strong> Google tarafından geliştirilen ve tek bir kod tabanından iOS, Android ve web gibi farklı platformlara uygulama geliştirmeyi sağlayan bir framework'tür. Widget tabanlı yapısıyla backend'in bir kısmı ve frontend için kullanıldı.
+</p>
+
+<p>
+    <strong>Firebase:</strong> Veri tabanı, kimlik doğrulama, dosya depolama ve bulut işlevleri gibi bir dizi hizmet sunan Google'ın bulut tabanlı bir platformudur. Flutter projelerinde sıkça kullanılır ve backend işlevselliğini kullandık. Veri tabanı , kimlik doğrulama,  dosya depolama işlemlerini kullandık.
+</p>
+
+<p>
+    <strong>Git ve GitHub:</strong> Proje kodlarının sürüm kontrolü ve işbirliği için kullanılan yaygın araçlardır. Kod değişikliklerini izlemek, kod paylaşımını kolaylaştırmak ve proje ekibi arasındaki işbirliğini artırmak amacıyla tercih edilirler. Ortak kod yazarken kullandık.
+</p>
 </body>
 </html>
