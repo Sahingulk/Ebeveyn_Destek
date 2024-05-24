@@ -1,4 +1,4 @@
-(https://github.com/Sahingulk/Ebeveyn_Destek/assets/73434957/a097bd9b-73c1-4e0c-a52a-f47258e0828d)
+![Logo](https://github.com/Sahingulk/Ebeveyn_Destek/assets/73434957/ed1a8956-23b0-43b4-b088-12be6e82a234)
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
