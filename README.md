@@ -1,6 +1,4 @@
 
-<!DOCTYPE html>![Logo](https://github.com/Sahingulk/Ebeveyn_Destek/assets/73434957/0cc5be4f-5b54-47c4-9304-779ec5190164)
-
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
