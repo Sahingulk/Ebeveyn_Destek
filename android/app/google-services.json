@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "906690962886",
+    "project_id": "firestore-ebeveyn",
+    "storage_bucket": "firestore-ebeveyn.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:906690962886:android:99b2b7025c7cbb21bd7ec7",
+        "android_client_info": {
+          "package_name": "com.example.ebeveyn_destek"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLub9ZdPbMC3TKxGHkk-LS32KrG76DLsU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
