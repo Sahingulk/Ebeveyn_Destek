@@ -26,43 +26,82 @@ class _ExamEntryScreenState extends State<ExamEntryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Yeni Sınav Girişi'),
+        title: const Text('Yeni Sınav Girişi',
+          style: TextStyle(
+            fontSize: 20,
+            color: Colors.white,
+          ),
+        ),
+        backgroundColor: const Color.fromARGB(255, 2, 51, 91),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            TextFormField(
-              controller: matematikController,
-              decoration: InputDecoration(labelText: 'Matematik Neti'),
-              keyboardType: TextInputType.number,
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/ogram oluşturma.png"),
+            fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(Colors.black38, BlendMode.darken),
+          ),
+        ),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const Text(
+                  'Lütfen sınav netlerinizi girin',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 20),
+                _buildTextField(matematikController, 'Matematik Neti'),
+                const SizedBox(height: 10),
+                _buildTextField(turkceController, 'Türkçe Neti'),
+                const SizedBox(height: 10),
+                _buildTextField(sosyalController, 'Sosyal Bilgiler Neti'),
+                const SizedBox(height: 10),
+                _buildTextField(fenController, 'Fen Bilimleri Neti'),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: _saveExamResults,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 2, 51, 91),
+                    padding: const EdgeInsets.symmetric(vertical: 15),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    shadowColor: Colors.black45,
+                    elevation: 8,
+                  ),
+                  child: const Text('Kaydet', style: TextStyle(color: Colors.white, fontSize: 18)),
+                ),
+              ],
             ),
-            TextFormField(
-              controller: turkceController,
-              decoration: InputDecoration(labelText: 'Türkçe Neti'),
-              keyboardType: TextInputType.number,
-            ),
-            TextFormField(
-              controller: sosyalController,
-              decoration: InputDecoration(labelText: 'Sosyal Bilgiler Neti'),
-              keyboardType: TextInputType.number,
-            ),
-            TextFormField(
-              controller: fenController,
-              decoration: InputDecoration(labelText: 'Fen Bilimleri Neti'),
-              keyboardType: TextInputType.number,
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                _saveExamResults();
-              },
-              child: const Text('Kaydet'),
-            ),
-          ],
+          ),
         ),
       ),
+    );
+  }
+
+  Widget _buildTextField(TextEditingController controller, String labelText) {
+    return TextFormField(
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: labelText,
+        labelStyle: const TextStyle(color: Colors.white),
+        filled: true,
+        fillColor: Colors.white24,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide.none,
+        ),
+      ),
+      keyboardType: TextInputType.number,
+      style: const TextStyle(color: Colors.white),
     );
   }
 
@@ -81,6 +120,7 @@ class _ExamEntryScreenState extends State<ExamEntryScreen> {
         'turkce': turkceNotu,
         'sosyal': sosyalNotu,
         'fen': fenNotu,
+        'olusturmaTarihi': Timestamp.now(),
       };
 
       FirebaseFirestore.instance
@@ -95,6 +135,10 @@ class _ExamEntryScreenState extends State<ExamEntryScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Sınav sonuçları kaydedildi.')),
         );
+        matematikController.clear();
+        turkceController.clear();
+        sosyalController.clear();
+        fenController.clear();
       }).catchError((error) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Hata: $error')),

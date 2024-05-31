@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class OgrenciEkle extends StatelessWidget {
-  const OgrenciEkle({super.key});
+  const OgrenciEkle({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,41 +14,82 @@ class OgrenciEkle extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Öğrenci Ekle'),
+        title: const Text('Öğrenci Ekle',
+         style: TextStyle(color: Colors.white)
+        
+        ),
+         centerTitle: true,
+        backgroundColor: const Color.fromARGB(255, 2, 51, 91),
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.black),
+
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            TextFormField(
-              controller: adController,
-              decoration: const InputDecoration(
-                hintText: 'Öğrenci Adı',
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/ogram oluşturma.png"),
+            fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(Colors.black54, BlendMode.darken),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              TextFormField(
+                controller: adController,
+                decoration: InputDecoration(
+                  hintText: 'Öğrenci Adı',
+                  filled: true,
+                  fillColor: Colors.white.withOpacity(0.8),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
               ),
-            ),
-            const SizedBox(height: 20),
-            TextFormField(
-              controller: numaraController,
-              decoration: const InputDecoration(
-                hintText: 'Öğrenci Numarası',
+              const SizedBox(height: 20),
+              TextFormField(
+                controller: numaraController,
+                decoration: InputDecoration(
+                  hintText: 'Öğrenci Numarası',
+                  filled: true,
+                  fillColor: Colors.white.withOpacity(0.8),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
               ),
-            ),
-            const SizedBox(height: 20),
-            TextFormField(
-              controller: sifreController,
-              decoration: const InputDecoration(
-                hintText: 'Verilecek Şifre',
+              const SizedBox(height: 20),
+              TextFormField(
+                controller: sifreController,
+                decoration: InputDecoration(
+                  hintText: 'Verilecek Şifre',
+                  filled: true,
+                  fillColor: Colors.white.withOpacity(0.8),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
               ),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                _addStudent(context, adController.text, numaraController.text, sifreController.text);
-              },
-              child: const Text('Öğrenci Ekle'),
-            ),
-          ],
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  _addStudent(context, adController.text, numaraController.text, sifreController.text);
+                },
+                child: const Text('Öğrenci Ekle',
+                 style: TextStyle(color: Colors.white)
+                ),
+                style: ElevatedButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 2, 51, 91),
+
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -60,18 +101,16 @@ class OgrenciEkle extends StatelessWidget {
       final User? currentUser = FirebaseAuth.instance.currentUser;
 
       if (currentUser != null) {
-        // Şifrenin öğretmen koleksiyonunda olup olmadığını kontrol et
         final QuerySnapshot result = await _firestore
             .collection('ogretmen')
             .where('verilcek_sifre', isEqualTo: sifre)
             .get();
         
         if (result.docs.isNotEmpty) {
-          // Şifre geçerli ise öğrenci ekle
           await _firestore.collection('ebeveyn').doc(currentUser.uid).collection('Cocuklar').add({
             'ogrenciAdi': ad,
             'ogrenciNumarasi': numara,
-            'verilenSifre': sifre, // Öğrenciye verilen şifreyi kaydet
+            'verilenSifre': sifre,
           });
 
           Navigator.pushReplacement(
@@ -83,7 +122,6 @@ class OgrenciEkle extends StatelessWidget {
             const SnackBar(content: Text('Öğrenci başarıyla eklendi')),
           );
         } else {
-          // Şifre geçersizse hata mesajı göster
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Geçersiz şifre')),
           );

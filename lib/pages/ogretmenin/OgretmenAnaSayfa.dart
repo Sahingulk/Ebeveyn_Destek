@@ -1,12 +1,9 @@
-// ignore_for_file: use_build_context_synchronously, library_private_types_in_public_api
-
+import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class OgretmenAnaSayfa extends StatefulWidget {
-  const OgretmenAnaSayfa({super.key});
+  const OgretmenAnaSayfa({Key? key}) : super(key: key);
 
   @override
   _OgretmenAnaSayfaState createState() => _OgretmenAnaSayfaState();
@@ -30,7 +27,6 @@ class _OgretmenAnaSayfaState extends State<OgretmenAnaSayfa> {
           .collection('ogretmen')
           .doc(currentUser.uid)
           .get();
-      // ignore: unnecessary_cast
       final ogretmenData = docSnapshot.data() as Map<String, dynamic>?;
       if (ogretmenData != null) {
         setState(() {
@@ -113,30 +109,61 @@ class _OgretmenAnaSayfaState extends State<OgretmenAnaSayfa> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Hoşgeldiniz, $ogretmenAdiSoyadi'),
+        title: Text(
+          'Hoşgeldiniz, $ogretmenAdiSoyadi',
+          style: const TextStyle(color: Colors.white),
+        ),
         centerTitle: true,
-        backgroundColor: Colors.lightBlueAccent,
+        backgroundColor: const Color.fromARGB(255, 2, 51, 91),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ListView.builder(
-          itemCount: ogrenciler.length,
-          itemBuilder: (context, index) {
-            final ogrenci = ogrenciler[index];
-            return Card(
-              margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-              child: ListTile(
-                title: Text(
-                  ogrenci['ogrenciAdi'],
-                  style: const TextStyle(fontWeight: FontWeight.bold),
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/ogram oluşturma.png"),
+            fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(Colors.black54, BlendMode.darken),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ListView.builder(
+            itemCount: ogrenciler.length,
+            itemBuilder: (context, index) {
+              final ogrenci = ogrenciler[index];
+              return Card(
+                color: Colors.white.withOpacity(0.8),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
                 ),
-                subtitle: Text('Numara: ${ogrenci['ogrenciNumarasi']}'),
-                onTap: () {
-                  _sendMessage(ogrenci['ebeveynId'], ogrenci['ogrenciAdi'], ogrenci['ogrenciNumarasi']);
-                },
-              ),
-            );
-          },
+                elevation: 5,
+                margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                child: ListTile(
+                  contentPadding: const EdgeInsets.all(15.0),
+                  title: Text(
+                    ogrenci['ogrenciAdi'],
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Colors.black87,
+                    ),
+                  ),
+                  subtitle: Text(
+                    'Numara: ${ogrenci['ogrenciNumarasi']}',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.black54,
+                    ),
+                  ),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.message, color: Colors.lightBlueAccent),
+                    onPressed: () {
+                      _sendMessage(ogrenci['ebeveynId'], ogrenci['ogrenciAdi'], ogrenci['ogrenciNumarasi']);
+                    },
+                  ),
+                ),
+              );
+            },
+          ),
         ),
       ),
     );

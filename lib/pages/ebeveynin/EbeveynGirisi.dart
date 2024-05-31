@@ -46,49 +46,94 @@ class _GirisYapState extends State<EbeveynGirisi> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Giriş Yap'),
+        title: const Text('Giriş Yap',
+        style: TextStyle(color: Colors.white) ),
         centerTitle: true,
-        backgroundColor: Colors.lightBlueAccent,
+        backgroundColor: const Color.fromARGB(255, 2, 51, 91),
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.black),
       ),
-      body: Padding(
+      body: Container(
         padding: const EdgeInsets.all(20.0),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                'Ebeveyn Giriş',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/ogram oluşturma.png"),
+            fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(Colors.black54, BlendMode.darken),
+          ),
+        ),
+        child: Center(
+          child: SingleChildScrollView(
+            child: Card(
+              color: Colors.white.withOpacity(0.8),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              elevation: 8,
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text(
+                      'Ebeveyn Giriş',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black87,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    TextFormField(
+                      controller: _mailController,
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.email),
+                        hintText: 'Mail Adresi',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white70,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    TextFormField(
+                      controller: _sifreController,
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.lock),
+                        hintText: 'Şifre',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white70,
+                      ),
+                      obscureText: true,
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.white, backgroundColor: const Color.fromARGB(255, 2, 51, 91),
+                        minimumSize: const Size(double.infinity, 50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      onPressed: _login,
+                      child: const Text('Giriş Yap'),
+                    ),
+                    const SizedBox(height: 10),
+                    TextButton(
+                      onPressed: _navigateToSifremiUnuttum,
+                      child: const Text(
+                        'Şifremi Unuttum',
+                        style: TextStyle(color: Colors.lightBlueAccent),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(height: 20),
-              TextFormField(
-                controller: _mailController,
-                decoration: const InputDecoration(
-                  hintText: 'Mail Adresi',
-                ),
-              ),
-              const SizedBox(height: 10),
-              TextFormField(
-                controller: _sifreController,
-                decoration: const InputDecoration(
-                  hintText: 'Şifre',
-                ),
-                obscureText: true,
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _login,
-                child: const Text('Giriş Yap'),
-              ),
-              const SizedBox(height: 10),
-              TextButton(
-                onPressed: _navigateToSifremiUnuttum,
-                child: const Text('Şifremi Unuttum'),
-              ),
-            ],
+            ),
           ),
         ),
       ),

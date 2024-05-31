@@ -7,7 +7,6 @@ class OgretmenKayit extends StatefulWidget {
   const OgretmenKayit({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _OgretmenKayitState createState() => _OgretmenKayitState();
 }
 
@@ -25,7 +24,6 @@ class _OgretmenKayitState extends State<OgretmenKayit> {
   Future<void> _register() async {
     if (_sifreController.text == _sifreTekrarController.text) {
       try {
-        // Benzersizlik kontrolü
         final QuerySnapshot snapshot = await _firestore
             .collection('ogretmen')
             .where('verilcek_sifre', isEqualTo: _ogretmenIdController.text)
@@ -38,13 +36,11 @@ class _OgretmenKayitState extends State<OgretmenKayit> {
           return;
         }
 
-        // Kullanıcı oluşturma işlemi
         UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
           email: _mailController.text,
           password: _sifreController.text,
         );
 
-        // Firestore kaydı oluşturma işlemi
         await _firestore.collection('ogretmen').doc(userCredential.user!.uid).set({
           'ad': _adController.text,
           'soyad': _soyadController.text,
@@ -76,73 +72,141 @@ class _OgretmenKayitState extends State<OgretmenKayit> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Kayıt Ol'),
+        title: const Text(
+          'Kayıt Ol',
+          style: TextStyle(color: Colors.white),
+        ),
         centerTitle: true,
-        backgroundColor: Colors.lightBlueAccent,
+        backgroundColor: const Color.fromARGB(255, 2, 51, 91),
+        elevation: 0,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
-      body: Padding(
+      body: Container(
         padding: const EdgeInsets.all(20.0),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                'Ogretmen Kayıt',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/ogram oluşturma.png"),
+            fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(Colors.black54, BlendMode.darken),
+          ),
+        ),
+        child: Center(
+          child: SingleChildScrollView(
+            child: Card(
+              color: Colors.white.withOpacity(0.8),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              elevation: 8,
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text(
+                      'Öğretmen Kayıt',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black87,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    TextFormField(
+                      controller: _adController,
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.person),
+                        hintText: 'Ad',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white70,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    TextFormField(
+                      controller: _soyadController,
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.person_outline),
+                        hintText: 'Soyad',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white70,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    TextFormField(
+                      controller: _mailController,
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.email),
+                        hintText: 'Mail Adresi',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white70,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    TextFormField(
+                      controller: _ogretmenIdController,
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.lock),
+                        hintText: 'Verilecek Şifreniz',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white70,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    TextFormField(
+                      controller: _sifreController,
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.lock),
+                        hintText: 'Şifre',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white70,
+                      ),
+                      obscureText: true,
+                    ),
+                    const SizedBox(height: 10),
+                    TextFormField(
+                      controller: _sifreTekrarController,
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.lock_outline),
+                        hintText: 'Şifre Tekrarı',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white70,
+                      ),
+                      obscureText: true,
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.white, backgroundColor: const Color.fromARGB(255, 2, 51, 91),
+                        minimumSize: const Size(double.infinity, 50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      onPressed: _register,
+                      child: const Text('Oluştur'),
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(height: 20),
-              TextFormField(
-                controller: _adController,
-                decoration: const InputDecoration(
-                  hintText: 'Ad',
-                ),
-              ),
-              const SizedBox(height: 10),
-              TextFormField(
-                controller: _soyadController,
-                decoration: const InputDecoration(
-                  hintText: 'Soyad',
-                ),
-              ),
-              const SizedBox(height: 10),
-              TextFormField(
-                controller: _mailController,
-                decoration: const InputDecoration(
-                  hintText: 'Mail Adresi',
-                ),
-              ),
-              const SizedBox(height: 10),
-              TextFormField(
-                controller: _ogretmenIdController,
-                decoration: const InputDecoration(
-                  hintText: 'Verilcek Şifreniz',
-                ),
-              ),
-              const SizedBox(height: 10),
-              TextFormField(
-                controller: _sifreController,
-                decoration: const InputDecoration(
-                  hintText: 'Şifre',
-                ),
-                obscureText: true,
-              ),
-              const SizedBox(height: 10),
-              TextFormField(
-                controller: _sifreTekrarController,
-                decoration: const InputDecoration(
-                  hintText: 'Şifre Tekrarı',
-                ),
-                obscureText: true,
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _register,
-                child: const Text('Oluştur'),
-              ),
-            ],
+            ),
           ),
         ),
       ),

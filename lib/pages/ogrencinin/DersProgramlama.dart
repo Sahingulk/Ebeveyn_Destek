@@ -72,76 +72,122 @@ class _LessonPlanningScreenState extends State<LessonPlanningScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Ders Programlama - ${widget.ogrenciAdi}'),
+        title: Text('Ders Programlama - ${widget.ogrenciAdi}',
+         style: const TextStyle(
+                    fontSize: 20,
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    
+                  ),
+         ),
+         backgroundColor: const Color.fromARGB(255, 2, 51, 91),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const Text(
-              'Ders Programları',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/ogram oluşturma.png"),
+            fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(Colors.black38, BlendMode.darken),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const Text(
+                'Ders Programları',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
-            ),
-            Expanded(
-              child: StreamBuilder<QuerySnapshot>(
-                stream: _firestore
-                    .collection('ebeveyn')
-                    .doc(FirebaseAuth.instance.currentUser!.uid)
-                    .collection('Cocuklar')
-                    .doc(widget.ogrenciNumarasi)
-                    .collection('DersProgramlari')
-                    .orderBy('olusturmaTarihi', descending: true)
-                    .snapshots(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                  if (!snapshot.hasData) {
-                    return const Center(child: Text('Henüz ders programı yok'));
-                  }
-                  final plans = snapshot.data!.docs;
-                  return ListView.builder(
-                    itemCount: plans.length,
-                    itemBuilder: (context, index) {
-                      final plan = plans[index].data() as Map<String, dynamic>;
-                      final planId = plans[index].id;
-                      return ListTile(
-                        title: Text(plan['konu'] ?? 'Konu Yok'),
-                        subtitle: Text('Bitiş Tarihi: ${plan['bitisTarihi'].toDate()}'),
-                        trailing: IconButton(
-                          icon: const Icon(Icons.delete),
-                          onPressed: () => _deleteLessonPlan(planId),
-                        ),
-                      );
-                    },
-                  );
-                },
+              const SizedBox(height: 20),
+              Expanded(
+                child: StreamBuilder<QuerySnapshot>(
+                  stream: _firestore
+                      .collection('ebeveyn')
+                      .doc(FirebaseAuth.instance.currentUser!.uid)
+                      .collection('Cocuklar')
+                      .doc(widget.ogrenciNumarasi)
+                      .collection('DersProgramlari')
+                      .orderBy('olusturmaTarihi', descending: true)
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    if (!snapshot.hasData) {
+                      return const Center(child: Text('Henüz ders programı yok', style: TextStyle(color: Colors.white)));
+                    }
+                    final plans = snapshot.data!.docs;
+                    return ListView.builder(
+                      itemCount: plans.length,
+                      itemBuilder: (context, index) {
+                        final plan = plans[index].data() as Map<String, dynamic>;
+                        final planId = plans[index].id;
+                        return Card(
+                          color: const Color.fromARGB(255, 255, 255, 255).withOpacity(0.8),
+                          margin: const EdgeInsets.symmetric(vertical: 8),
+                          child: ListTile(
+                            title: Text(plan['konu'] ?? 'Konu Yok', style: TextStyle(fontWeight: FontWeight.bold)),
+                            subtitle: Text('Bitiş Tarihi: ${plan['bitisTarihi'].toDate()}'),
+                            trailing: IconButton(
+                              icon: const Icon(Icons.delete, color: Colors.red),
+                              onPressed: () => _deleteLessonPlan(planId),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
               ),
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              'Yeni Ders Programı Oluştur',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            TextField(
-              controller: konuController,
-              decoration: const InputDecoration(labelText: 'Konu'),
-            ),
-            TextField(
-              controller: bitisController,
-              decoration: const InputDecoration(labelText: 'Bitiş Tarihi (YYYY-MM-DD)'),
-            ),
-            const SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: _createLessonPlan,
-              child: const Text('Oluştur', style: TextStyle(fontSize: 18)),
-            ),
-          ],
+              const SizedBox(height: 20),
+              const Text(
+                'Yeni Ders Programı Oluştur',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 10),
+              TextField(
+                controller: konuController,
+                decoration: InputDecoration(
+                  labelText: 'Konu',
+                  filled: true,
+                  fillColor: const Color.fromARGB(255, 255, 255, 255).withOpacity(0.8),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+              TextField(
+                controller: bitisController,
+                decoration: InputDecoration(
+                  labelText: 'Bitiş Tarihi (YYYY-MM-DD)',
+                  filled: true,
+                  fillColor: Colors.white.withOpacity(0.8),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: _createLessonPlan,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(255, 2, 51, 91),
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: const Text('Oluştur', style: TextStyle(color: Colors.white,fontSize: 18)),
+              ),
+            ],
+          ),
         ),
       ),
     );
