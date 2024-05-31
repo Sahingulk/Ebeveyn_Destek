@@ -102,5 +102,9 @@
 <p>
     <strong>Git ve GitHub:</strong> Proje kodlarının sürüm kontrolü ve işbirliği için kullanılan yaygın araçlardır. Kod değişikliklerini izlemek, kod paylaşımını kolaylaştırmak ve proje ekibi arasındaki işbirliğini artırmak amacıyla tercih edilirler. Ortak kod yazarken kullandık.
 </p>
+
+   <p>
+            <strong>Flutter:</strong> Uygulamanın geliştirilmesinde kullanılan bir mobil uygulama geliştirme framework'üdür. Hızlı, performanslı ve kullanıcı dostu uygulamaların geliştirilmesine olanak sağlar.
+        </p>
 </body>
 </html>
